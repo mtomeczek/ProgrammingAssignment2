@@ -1,15 +1,42 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Create cache for matrix and its inverse matrix
+## Assumes that matrix passed as parameter is always square.
+makeCacheMatrix <- function(matrixData = matrix()) {
+  inverseCache <- NULL
 
-## Write a short comment describing this function
+  set <- function(newMatrix) {
+    matrixData <<- newMatrix
 
-makeCacheMatrix <- function(x = matrix()) {
+    ## Invalidate cache
+    inverseCache <<- NULL
+  }
 
+  get <- function() matrixData
+
+  setInverse <- function(inverseValue) inverseCache <<- inverseValue
+
+  getInverse <- function() inverseCache
+
+  list(set = set, get = get,
+       setInverse = setInverse,
+       getInverse = getInverse)
 }
 
 
-## Write a short comment describing this function
+## Calculate inverse matrix based on matrix stored in matrixCache object.
+## If matrixCache contains previously calculated and cached inverse matrix return it.
+## Otherwise calculate it and store in matrixCache object.
+cacheSolve <- function(matrixCache, ...) {
+  inverseMatrix <- matrixCache$getInverse()
 
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  ## Check if cached data exists.
+  if(!is.null(inverseMatrix)) {
+    message("getting cached data")
+    return(inverseMatrix)
+  }
+  data <- matrixCache$get()
+  inverseMatrix <- solve(data, ...)
+
+  ## Store calculated inverse matrix into cache object.
+  matrixCache$setInverse(inverseMatrix)
+  inverseMatrix
 }
