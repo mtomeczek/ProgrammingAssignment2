@@ -1,17 +1,19 @@
 ## Create cache for matrix and its inverse matrix
-## Assumes that matrix passed as parameter is always square.
 makeCacheMatrix <- function(matrixData = matrix()) {
+  ## initialization of new instance
   inverseCache <- NULL
 
+  #instance methods
+  #set new matrix and invalidate cache
   set <- function(newMatrix) {
     matrixData <<- newMatrix
-
     ## Invalidate cache
     inverseCache <<- NULL
   }
 
   get <- function() matrixData
 
+  # set cache value
   setInverse <- function(inverseValue) inverseCache <<- inverseValue
 
   getInverse <- function() inverseCache
